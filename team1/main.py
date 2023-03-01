@@ -23,15 +23,17 @@ cities = ('Adilabad', 'Nizamabad', 'Karimnagar', 'Khammam', 'Warangal')
 selected_city = st.selectbox('Select dataset for prediction', cities)
 
 @st.cache(allow_output_mutation=True)
-def load_model():
-  with open('content/serialized_model.json', 'r') as fin:
+def load_model(city):
+  # path='json/{}_model.json'.format(city)
+  path='json/{}_model.json'.format(city)
+  with open(path, 'r') as fin:
     m = model_from_json(fin.read())  # Load model
   return m
 
 with st.spinner('Loading Model Into Memory....'):
-  m= load_model()
+  m= load_model(selected_city)
 
-data_load_state = st.text('Loading data...')
+
 
 future = m.make_future_dataframe(periods = 365)
 forecast = m.predict(future)
