@@ -16,6 +16,7 @@ from prophet.serialize import  model_from_json
 
 
 
+
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Sample websapp")
 
