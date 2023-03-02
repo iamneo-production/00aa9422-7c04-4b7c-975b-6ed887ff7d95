@@ -12,7 +12,6 @@ from streamlit_lottie import st_lottie
 from PIL import Image
 
 
-# Find more emojis here: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Team cl_AI_mate", page_icon=":tada:", layout="wide")
 
 
@@ -128,20 +127,6 @@ fig1 = plot_plotly(m, forecast)
 st.plotly_chart(fig1)
 
 
-# st.markdown("[Watch Video...](https://youtu.be/TXSOitGoINE)")
-# with st.container():
-#     image_column, text_column = st.columns((1, 2))
-#     with image_column:
-#         st.image(img_contact_form)
-#     with text_column:
-#         st.subheader("How To Add A Contact Form To Your Streamlit App")
-#         st.write(
-#             """
-#             Want to add a contact form to your Streamlit website?
-#             In this video, I'm going to show you how to implement a contact form in your Streamlit app using the free service ‘Form Submit’.
-#             """
-#         )
-#         st.markdown("[Watch Video...](https://youtu.be/FOULV9Xij_8)")
 
 # ---- CONTACT ----
 with st.container():
@@ -149,7 +134,6 @@ with st.container():
     st.header("Get In Touch With Us")
     st.write("##")
 
-    # Documention: https://formsubmit.co/ !!! CHANGE EMAIL ADDRESS !!!
     contact_form = """
     <form action="https://formsubmit.co/YOUR@MAIL.COM" method="POST">
         <input type="hidden" name="_captcha" value="false">
