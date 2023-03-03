@@ -9,61 +9,12 @@ import csv
 import shutil
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from prophet.serialize import model_to_json, model_from_json
+import math
 
 import pandas as pd
 
 from prophet import *
 
-def drop_schema(df):
-  drop_list = ['precip','windgust', 'windspeed', 'winddir', 'sealevelpressure', 'cloudcover' ,'visibility',
-        'solarradiation', 'solarenergy', 'uvindex', 'severerisk', 'conditions',
-        'icon', 'stations', 'name','feelslike', 'dew','precipprob', 'preciptype', 'snow', 'snowdepth']
-  df = df.drop(drop_list , axis=1)
-  return df
-
-def resample_schema(df , period , type):
-  df_id = df.set_index('datetime')
-  if(type):
-    df_id_sampled = df_id.resample(period).mean()
-  else:
-    df_id_sampled = df_id.resample(period).max()
-  return df_id_sampled
-
-def split(df , time_col ,split ,lower = None , upper = None):
-
-  df['ds'] = df.index
-  # - 
-  df = df.rename({'heat_index' : 'y'}, axis = 'columns')
-  split_dt = dt.datetime(split , 1 , 1 , 0 ,0)
-  split_dt -= dt.timedelta(days=1)
-
-  print("split at" , split_dt)
-  if(lower == None):
-    lower = df[time_col].iloc[0]
-  if(upper == None):
-    upper = df[time_col].iloc[-1]
-
-  train = df[ (df[time_col] <= split_dt) ]
-  test = df[(df[time_col] > split_dt) ]
-
-  print(train.shape , test.shape)
-  print(train.iloc[-1][time_col] , test.iloc[0][time_col])
-  
-  return train ,test
-
-# from sklearn.model_selection import train_test_split
-# def prophet_perp(df , pred_col):
-#   # - 
-#   df['ds'] = df.index
-#   # - 
-#   df = df.rename({pred_col : 'y'}, axis = 'columns')
-#   # - 
-#   train, test = train_test_split(df, test_size=0.2 , shuffle= False)
-
-#   # print(train.shape , test.shape)
-#   # print(train.iloc[-1][time_col] , test.iloc[0][time_col])
-  
-#   return train , test
   
 def prophet_train(train ):
   m = Prophet(
@@ -189,13 +140,13 @@ def train_model(city):
               min_row = i + 1  
 
   #winner model
-  if min_adilabad_row==1:
+  if min_row==1:
     shutil.copy(one_prediction_model_name, winner_prediction_model_name)
     shutil.copy(one_prediction_file_name, winner_prediction_file_name) 
-  elif min_adilabad_row==2:
+  elif min_row==2:
     shutil.copy(two_prediction_model_name, winner_prediction_model_name)
     shutil.copy(two_prediction_file_name, winner_prediction_file_name)
-  elif min_adilabad_row==3:
+  elif min_row==3:
     shutil.copy(three_prediction_model_name, winner_prediction_model_name)
     shutil.copy(three_prediction_file_name, winner_prediction_file_name)
   else:
